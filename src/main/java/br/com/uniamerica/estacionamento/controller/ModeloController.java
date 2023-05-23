@@ -33,9 +33,9 @@ public class ModeloController {
     @GetMapping("/ativos/{ativo}")
     public ResponseEntity <?> ativo(@PathVariable("ativo") boolean ativo){
         if(!ativo){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(modeloRep.findByAtivo(false));
         }
-        return ResponseEntity.ok(new Modelo());
+        return ResponseEntity.ok(modeloRep.findByAtivo(true));
     }
     @PostMapping
     public ResponseEntity <?> cadastrar(@RequestBody final Modelo modelo){

@@ -5,6 +5,7 @@ import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 @Service
@@ -13,9 +14,10 @@ public class ConfiguracaoService {
     @Autowired
     private ConfiguracaoRepository configuracaoRep;
 
-    
+
     public float souFoda;
 
+    @Transactional(rollbackFor = Exception.class)
     public void valorHoraFunc(Configuracao configuracao){
 
 

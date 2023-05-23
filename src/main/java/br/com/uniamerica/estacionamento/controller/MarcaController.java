@@ -35,9 +35,9 @@ public class MarcaController {
     @GetMapping("/ativos/{ativo}")
     public ResponseEntity <?> ativo(@PathVariable("ativo") boolean ativo){
         if(!ativo){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(marcaRep.findByAtivo(false));
         }
-        return ResponseEntity.ok(new Marca());
+        return ResponseEntity.ok(marcaRep.findByAtivo(true));
     }
 
     @PostMapping
