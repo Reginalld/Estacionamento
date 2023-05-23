@@ -1,8 +1,10 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Marca;
 import br.com.uniamerica.estacionamento.repository.MarcaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -33,8 +35,21 @@ public class MarcaService {
         this.marcaRep.save(marca);
     }
 
-    public void deletar(Long id,Marca marca){
-        this.marcaRep.deleteById(id);
+    public ResponseEntity<?> deletar(Long id){
+        Marca marca = this.marcaRep.findById(id).orElse(null);
+
+        if (marca == null || marca.getId() != (marca.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado");
+        }
+
+
+        if(marca.isAtivo()){
+            marca.setAtivo(false);
+            return ResponseEntity.ok ("Desativado com sucesso");
+        }
+
+        marcaRep.deleteById(id);
+        return ResponseEntity.ok ("Deletado com sucesso");
     }
 
 

@@ -72,19 +72,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@RequestParam("id") final Long id, @PathVariable boolean ativo){
-        try {
-            if (!ativo) {
-                marcaRep.deleteById(id);
-                return ResponseEntity.ok("Deletado pois não está ativo");
-            }
-            return ResponseEntity.ok("Tá ativo");
-        }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        }
-        catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<?> deletaCondutor(@RequestParam("id") final Long id, @PathVariable boolean ativo) {
+        return marcaServ.deletar(id);
     }
 }

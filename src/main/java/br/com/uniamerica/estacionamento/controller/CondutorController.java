@@ -71,21 +71,9 @@ public class CondutorController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
-        Condutor condutor = this.condutorRep.findById(id).orElse(null);
+    public ResponseEntity<?> deletaCondutor(@PathVariable Long id) {
+        return condutorService.deletar(id);
 
-        if (condutor == null || condutor.getId().equals(condutor.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado");
-        }
-
-
-        if(condutor.isAtivo()){
-            condutor.setAtivo(false);
-            return ResponseEntity.ok ("Desativado com sucesso");
-        }
-
-        condutorRep.deleteById(id);
-        return ResponseEntity.ok ("Deletado com sucesso");
     }
 
 }

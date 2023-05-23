@@ -38,9 +38,9 @@ public class MovimentacaoController {
     @GetMapping("/ativos/{ativo}")
     public ResponseEntity <?> ativo(@PathVariable("ativo") boolean ativo){
         if(!ativo){
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(movimentacaoRep.findByAtivo(false));
         }
-        return ResponseEntity.ok(new Movimentacao());
+        return ResponseEntity.ok(movimentacaoRep.findByAtivo(true));
     }
 
     @PostMapping
@@ -78,11 +78,8 @@ public class MovimentacaoController {
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id, @PathVariable boolean ativo, Movimentacao movimentacao){
         try {
-            if (!ativo) {
-                movimentacao.setAtivo(false);
-                return ResponseEntity.ok("Deletado pois não está ativo");
-            }
-            return ResponseEntity.ok("Tá ativo");
+            movimentacao.setAtivo(false);
+            return ResponseEntity.ok("Desativado");
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());

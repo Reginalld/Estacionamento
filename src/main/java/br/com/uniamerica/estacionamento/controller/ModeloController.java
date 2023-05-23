@@ -68,7 +68,7 @@ public class ModeloController {
     }
 
     @DeleteMapping("delete/{id}")
-    public void deletaCondutor(@PathVariable Long id){
-        modeloRep.deleteById(id);
+    public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
+       return modeloServ.deletar(id);
     }
 }

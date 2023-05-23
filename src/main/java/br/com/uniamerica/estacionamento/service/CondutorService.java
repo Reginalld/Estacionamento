@@ -4,6 +4,7 @@ import br.com.uniamerica.estacionamento.configs.ValidaCPF;
 import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.repository.CondutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -56,7 +57,21 @@ public class CondutorService {
         this.condutorRep.save(condutor);
     }
 
-    public void deletar(Long id,Condutor condutor){
-        this.condutorRep.deleteById(id);
+    public ResponseEntity<?> deletar(Long id){
+        Condutor condutor = this.condutorRep.findById(id).orElse(null);
+
+        if (condutor == null || condutor.getId() != (condutor.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado");
+        }
+
+
+        if(condutor.isAtivo()){
+            condutor.setAtivo(false);
+            return ResponseEntity.ok ("Desativado com sucesso");
+        }
+
+        condutorRep.deleteById(id);
+        return ResponseEntity.ok ("Deletado com sucesso");
     }
-}
+    }
+

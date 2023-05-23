@@ -72,8 +72,8 @@ public class VeiculoController {
     }
 
     @DeleteMapping("delete/{id}")
-    public void deletaCondutor(@PathVariable Long id){
-        veiculoRep.deleteById(id);
+    public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
+        return veiculoServ.deletar(id);
     }
 
 }

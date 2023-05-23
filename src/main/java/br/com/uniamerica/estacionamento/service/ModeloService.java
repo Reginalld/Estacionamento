@@ -1,10 +1,12 @@
 package br.com.uniamerica.estacionamento.service;
 
 
+import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.repository.MarcaRepository;
 import br.com.uniamerica.estacionamento.repository.ModeloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -43,12 +45,24 @@ public class ModeloService {
 
     }
 
+        public ResponseEntity<?> deletar(Long id){
+            Modelo modelo = this.modeloRep.findById(id).orElse(null);
+
+            if (modelo == null || modelo.getId() != (modelo.getId())){
+                throw new RuntimeException("Não foi possivel identificar o registro informado");
+            }
 
 
-    public void deletar(Long id,Modelo modelo){
-        this.modeloRep.deleteById(id);
+            if(modelo.isAtivo()){
+                modelo.setAtivo(false);
+                return ResponseEntity.ok ("Desativado com sucesso");
+            }
+
+            modeloRep.deleteById(id);
+            return ResponseEntity.ok ("Deletado com sucesso");
+        }
     }
 
 
 
-}
+

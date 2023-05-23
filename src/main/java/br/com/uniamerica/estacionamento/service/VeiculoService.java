@@ -1,8 +1,10 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
 import br.com.uniamerica.estacionamento.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -39,7 +41,20 @@ public class VeiculoService {
         this.veiculoRep.save(veiculo);
     }
 
-    public void deletar(Long id,Veiculo veiculo){
-        this.veiculoRep.deleteById(id);
+    public ResponseEntity<?> deletar(Long id){
+        Veiculo veiculo = this.veiculoRep.findById(id).orElse(null);
+
+        if (veiculo == null || veiculo.getId() != (veiculo.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado");
+        }
+
+
+        if(veiculo.isAtivo()){
+            veiculo.setAtivo(false);
+            return ResponseEntity.ok ("Desativado com sucesso");
+        }
+
+        veiculoRep.deleteById(id);
+        return ResponseEntity.ok ("Deletado com sucesso");
     }
 }
