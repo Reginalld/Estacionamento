@@ -46,10 +46,6 @@ public class CondutorService {
         Assert.isTrue(condutor.getTempoDesconto() != null, "TempoDesconto não pode ser nulo");
 
 
-
-
-        condutor.setAtivo(true);
-
         this.condutorRep.save(condutor);
     }
 
