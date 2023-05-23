@@ -55,6 +55,7 @@ public class ModeloService {
 
             if(modelo.isAtivo()){
                 modelo.setAtivo(false);
+                modeloRep.save(modelo);
                 return ResponseEntity.ok ("Desativado com sucesso");
             }
 

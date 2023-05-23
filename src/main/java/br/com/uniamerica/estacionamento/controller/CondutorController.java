@@ -70,10 +70,15 @@ public class CondutorController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id) {
-        return condutorService.deletar(id);
+        try {
 
+            return this.condutorService.deletar(id);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
     }
 
 }

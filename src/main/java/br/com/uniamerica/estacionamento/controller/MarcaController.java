@@ -72,7 +72,12 @@ public class MarcaController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@RequestParam("id") final Long id, @PathVariable boolean ativo) {
-        return marcaServ.deletar(id);
+    public ResponseEntity<?> deletaCondutor(@PathVariable("id") final Long id) {
+       try {
+           return this.marcaServ.deletar(id);
+       }
+       catch (RuntimeException e){
+           return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+       }
     }
 }

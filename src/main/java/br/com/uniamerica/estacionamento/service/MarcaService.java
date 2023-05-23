@@ -45,6 +45,7 @@ public class MarcaService {
 
         if(marca.isAtivo()){
             marca.setAtivo(false);
+            marcaRep.save(marca);
             return ResponseEntity.ok ("Desativado com sucesso");
         }
 

@@ -51,6 +51,7 @@ public class VeiculoService {
 
         if(veiculo.isAtivo()){
             veiculo.setAtivo(false);
+            veiculoRep.save(veiculo);
             return ResponseEntity.ok ("Desativado com sucesso");
         }
 

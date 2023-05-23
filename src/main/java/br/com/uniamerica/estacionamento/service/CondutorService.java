@@ -67,11 +67,11 @@ public class CondutorService {
 
         if(condutor.isAtivo()){
             condutor.setAtivo(false);
+            condutorRep.save(condutor);
             return ResponseEntity.ok ("Desativado com sucesso");
         }
-
-        condutorRep.deleteById(id);
-        return ResponseEntity.ok ("Deletado com sucesso");
+            condutorRep.deleteById(id);
+            return ResponseEntity.ok("Deletado com sucesso");
     }
     }
 

@@ -73,7 +73,12 @@ public class VeiculoController {
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
-        return veiculoServ.deletar(id);
+        try {
+            return veiculoServ.deletar(id);
+        }catch (RuntimeException e){
+            return  ResponseEntity.internalServerError().body("Error: "+ e.getMessage());
+            }
+        }
     }
 
-}
+

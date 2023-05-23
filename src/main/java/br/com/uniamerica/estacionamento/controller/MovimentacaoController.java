@@ -76,8 +76,15 @@ public class MovimentacaoController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@PathVariable Long id, @PathVariable boolean ativo, Movimentacao movimentacao){
+    public ResponseEntity<?> deletaCondutor(@PathVariable Long id,Movimentacao movimentacao){
         try {
+
+            final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
+
+            if (movimentacao1 == null || movimentacao1.getId() != movimentacao.getId()){
+                throw new RuntimeException("Nao foi possivel indentificar o registro informado");
+            }
+
             movimentacao.setAtivo(false);
             return ResponseEntity.ok("Desativado");
         }

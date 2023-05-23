@@ -69,6 +69,10 @@ public class ModeloController {
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
-       return modeloServ.deletar(id);
+        try {
+            return modeloServ.deletar(id);
+        } catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
     }
 }
