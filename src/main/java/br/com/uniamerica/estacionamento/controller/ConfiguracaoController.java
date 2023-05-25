@@ -43,10 +43,11 @@ public class ConfiguracaoController {
         try {
             final Configuracao configuracao1 = this.configuracaoRep.findById(id).orElse(null);
 
-            if (configuracao1 == null || configuracao1.getId().equals(configuracao1.getId())){
+            if (configuracao1 == null || configuracao1.getId() != (configuracao1.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
             this.configuracaoRep.save(configuracao);
+            this.configuracaoServ.valorHoraFunc(configuracao);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){

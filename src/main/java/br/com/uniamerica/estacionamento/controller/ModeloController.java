@@ -52,7 +52,7 @@ public class ModeloController {
         try {
             final Modelo modelo1 = this.modeloRep.findById(id).orElse(null);
 
-            if (modelo1 == null || modelo1.getId() == (modelo.getId())){
+            if (modelo1 == null || modelo1.getId() != (modelo.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
             this.modeloRep.save(modelo);
@@ -67,8 +67,8 @@ public class ModeloController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deletaCondutor(@PathVariable("id") final Long id){
         try {
             return modeloServ.deletar(id);
         } catch (RuntimeException e){

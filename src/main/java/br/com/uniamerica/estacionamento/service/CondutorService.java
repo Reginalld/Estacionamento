@@ -51,8 +51,31 @@ public class CondutorService {
     }
 
     public void atualizaCondutor (Condutor condutor){
-        final Condutor condutorBancoDeDados = this.condutorRep.findById(condutor.getId()).orElse(null);
-        condutor.setCadastro(condutorBancoDeDados.getCadastro());
+        Assert.isTrue(!condutor.getNome().equals(""),"Nome não pode ser nulo!");
+        Assert.isTrue(condutor.getNome().length() <= 50,"Máximo de 50 caracteres");
+
+        Assert.isTrue(!condutor.getCpf().equals(""),"Cpf não pode ser nulo");
+        Assert.isTrue(condutor.getCpf().length() == 11, "Cpf deve conter 11 digitos");
+
+
+        if (this.validaCPF.isCPF(condutor.getCpf()) == true) {
+            System.out.printf("%s\n", this.validaCPF.imprimeCPF(condutor.getCpf()));
+        }
+        else {
+            int x = 2;
+            System.out.printf("Erro, CPF invalido !!!\n");
+            Assert.isTrue(x == 1, "Cpf inválido");
+
+        }
+
+        Assert.isTrue(!condutor.getTelefone().equals(""),"Telefone não pode ser nulo!");
+        Assert.isTrue(condutor.getTelefone().length() == 11, "Telefone deve conter 11 digítos, incluindo o DDD e o 9 extra");
+        Assert.isTrue(condutor.getTelefone().substring(0,11).matches("[0-9]*"),"Telefone deve conter apenas Números");
+
+        Assert.isTrue(condutor.getTempoPago() != null,"TempoPago não pode ser nulo");
+        Assert.isTrue(condutor.getTempoDesconto() != null, "TempoDesconto não pode ser nulo");
+
+        condutor.setAtivo(true);
 
         this.condutorRep.save(condutor);
     }

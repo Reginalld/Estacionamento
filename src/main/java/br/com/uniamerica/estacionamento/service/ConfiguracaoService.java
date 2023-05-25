@@ -15,9 +15,9 @@ public class ConfiguracaoService {
     private ConfiguracaoRepository configuracaoRep;
 
 
-    public float souFoda;
+    static float souFoda;
 
-    @Transactional(rollbackFor = Exception.class)
+
     public void valorHoraFunc(Configuracao configuracao){
 
 

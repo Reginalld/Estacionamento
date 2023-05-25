@@ -1,7 +1,9 @@
 package br.com.uniamerica.estacionamento.service;
 
+import br.com.uniamerica.estacionamento.entity.Condutor;
 import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
+import br.com.uniamerica.estacionamento.repository.CondutorRepository;
 import br.com.uniamerica.estacionamento.repository.ConfiguracaoRepository;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
 import br.com.uniamerica.estacionamento.repository.VeiculoRepository;
@@ -24,17 +26,18 @@ public class MovimentacaoService  {
     @Autowired
     private MovimentacaoRepository movimentacaoRep;
 
+
     @Autowired
     private ConfiguracaoService configuracaoServ;
 
-    @Autowired
-    private VeiculoRepository veiculoRep;
 
+    @Autowired
+    private CondutorRepository condutorRep;
 
 
     @Transactional(rollbackFor = Exception.class)
     public void createMovimentacao(Movimentacao movimentacao){
-       Assert.isTrue(movimentacao.getVeiculo() != null,"Veiculo não pode ser nulo");
+        Assert.isTrue(movimentacao.getVeiculo() != null,"Veiculo não pode ser nulo");
         Movimentacao movimentacaoExistente = movimentacaoRep.findByVeiculo(movimentacao.getVeiculo());
         Assert.isTrue(movimentacaoExistente == null || movimentacaoExistente.equals(movimentacao), "Veículo já existente");
 
@@ -53,7 +56,9 @@ public class MovimentacaoService  {
 
     }
 
-    public ResponseEntity<?> finalizarMovimentacao(Movimentacao movimentacao) {
+    public ResponseEntity<?> finalizarMovimentacao(Movimentacao movimentacao,Long id) {
+
+        final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
 
         Assert.isTrue(movimentacao.getVeiculo() != null,"Veiculo não pode ser nulo");
 
@@ -61,14 +66,12 @@ public class MovimentacaoService  {
 
         Assert.isTrue(movimentacao.getEntrada() != null, "Entrada não pode ser nulo");
 
-        Assert.isTrue(movimentacao.getSaida() != null, "Saida não pode ser nulo na finalização");
-
-        movimentacao.setAtivo(false);
+        Assert.isTrue(movimentacao.getSaida() != null, "Saida não pode ser nulo");
 
         Duration valorEntre = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
 
         String formattedElapsedTime = String.format("%02d%02d%02d", valorEntre.toHoursPart(), valorEntre.toMinutesPart(),
-              valorEntre.toSecondsPart());
+                valorEntre.toSecondsPart());
 
         String stringHoras = String.format("%02d" , valorEntre.toHoursPart());
         String stringMinutos = String.format("%02d" , valorEntre.toMinutesPart());
@@ -85,6 +88,7 @@ public class MovimentacaoService  {
 
         float miniFoda = configuracaoServ.souFoda;
 
+        System.out.println(miniFoda);
         Assert.isTrue(miniFoda != 0.0, "Adiciona um valor para valorHora");
 
 
@@ -94,9 +98,11 @@ public class MovimentacaoService  {
 
         this.movimentacaoRep.save(movimentacao);
 
-        return ResponseEntity.ok("Horas a pagar: "+ (secondsToHours + minutosToHours + paraHorasH) +"\n Total a pagar: " + taDevendoTrouxa
-        + "\n Hora da entrada: " + movimentacao.getEntrada() + "\n Hora da saida: " + movimentacao.getSaida() +
-        "\n Veiculo: "+ movimentacao.getVeiculo());
+       return ResponseEntity.ok("Horas a pagar: "+ (secondsToHours + minutosToHours + paraHorasH) +"\n Total a pagar: " + taDevendoTrouxa
+                + "\n Hora da entrada: " + movimentacao.getEntrada() + "\n Hora da saida: " + movimentacao.getSaida() +
+                "\n Placa do veiculo: " + movimentacao1.getVeiculo().getPlaca()+ "\n Modelo do veiculo: "+ movimentacao1.getVeiculo().getModelo().getNome()+
+              "\n Ano do veiculo: "+ movimentacao1.getVeiculo().getAno()+"\n Cor do veiculo: "+ movimentacao1.getVeiculo().getCor()+ "\n Tipo do veiculo: "+movimentacao1.getVeiculo().getTipo()
+       +"\n Nome do condutor: "+ movimentacao1.getCondutor().getNome());
 
     }
 

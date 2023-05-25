@@ -56,7 +56,7 @@ public class VeiculoController {
         try {
             final Veiculo veiculo1 = this.veiculoRep.findById(id).orElse(null);
 
-            if (veiculo1 == null || veiculo1.getId().equals(veiculo.getId())){
+            if (veiculo1 == null || !veiculo1.getId().equals(veiculo.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
             this.veiculoRep.save(veiculo);
@@ -71,7 +71,7 @@ public class VeiculoController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
         try {
             return veiculoServ.deletar(id);

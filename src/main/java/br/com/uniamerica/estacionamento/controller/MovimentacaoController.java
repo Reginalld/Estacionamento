@@ -3,6 +3,7 @@ package br.com.uniamerica.estacionamento.controller;
 import br.com.uniamerica.estacionamento.entity.Configuracao;
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.repository.MovimentacaoRepository;
+import br.com.uniamerica.estacionamento.service.ConfiguracaoService;
 import br.com.uniamerica.estacionamento.service.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +21,9 @@ public class MovimentacaoController {
 
     @Autowired
     private MovimentacaoService movimentacaoServ;
+
+    @Autowired
+    private ConfiguracaoService configuracaoServ;
 
 
 
@@ -60,11 +64,10 @@ public class MovimentacaoController {
         try {
             final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
 
-            if (movimentacao1 == null || movimentacao1.getId() != movimentacao.getId()){
+            if (movimentacao1 == null || !movimentacao1.getId().equals(movimentacao.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
-            return this.movimentacaoServ.finalizarMovimentacao(movimentacao);
-
+           return  movimentacaoServ.finalizarMovimentacao(movimentacao,id);
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()

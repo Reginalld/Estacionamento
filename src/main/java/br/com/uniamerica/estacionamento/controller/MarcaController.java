@@ -56,10 +56,10 @@ public class MarcaController {
         try {
             final Marca marca1 = this.marcaRep.findById(id).orElse(null);
 
-            if (marca1 == null || marca1.getId().equals(marca.getId())){
+            if (marca1 == null || !marca1.getId().equals(marca.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
-            this.marcaRep.save(marca);
+            this.marcaServ.editarMarca(marca);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){

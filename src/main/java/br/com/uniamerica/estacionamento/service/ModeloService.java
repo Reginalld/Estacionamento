@@ -25,7 +25,6 @@ public class ModeloService {
 
 
     @Transactional(rollbackFor = Exception.class)
-
     public void createModelo(Modelo modelo){
 
         Assert.isTrue(!modelo.getNome().equals(""),"Modelo não pode ser nulo");
@@ -39,6 +38,19 @@ public class ModeloService {
 
 
         modelo.setAtivo(true);
+
+        this.modeloRep.save(modelo);
+
+
+    }
+
+    public void editarModelo(Modelo modelo){
+
+        Assert.isTrue(!modelo.getNome().equals(""),"Modelo não pode ser nulo");
+        Assert.isTrue(modelo.getNome().length() >=2 && modelo.getNome().length() <= 50, "Deve conter até 50 digitos e no minimo 2");
+
+        Assert.isTrue(modelo.getMarca() != null,"Marca não pode ser nulo");
+
 
         this.modeloRep.save(modelo);
 

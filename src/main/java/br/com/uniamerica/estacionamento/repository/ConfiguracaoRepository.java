@@ -8,4 +8,6 @@ public interface ConfiguracaoRepository extends JpaRepository<Configuracao, Long
 
 
     Configuracao findByvalorHora(float valorHora);
+
+   // float findByvalorHora(float valorHora);
 }
