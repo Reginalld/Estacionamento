@@ -95,6 +95,7 @@ public class MovimentacaoService  {
         float taDevendoTrouxa = (secondsToHours + minutosToHours + paraHorasH) * miniFoda;
 
         System.out.println(taDevendoTrouxa);
+        movimentacao.setAtivo(false);
 
         this.movimentacaoRep.save(movimentacao);
 

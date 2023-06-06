@@ -9,15 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Year;
+
 @Service
 public class VeiculoService {
     
     @Autowired
-
     private VeiculoRepository veiculoRep;
 
-    @Transactional(rollbackFor = Exception.class)
+    private int qualquer = Year.now().getValue() + 1;
 
+    @Transactional(rollbackFor = Exception.class)
     public void createVeiculo(final Veiculo veiculo){
 
 

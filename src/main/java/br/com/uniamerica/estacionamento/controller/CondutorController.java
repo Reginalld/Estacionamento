@@ -56,7 +56,7 @@ public class CondutorController {
             final Condutor condutor1 = this.condutorRep.findById(id).orElse(null);
 
             if (condutor1 == null || !condutor1.getId().equals(condutor1.getId())){
-                throw new RuntimeException("Nao foi possivel indentificar o registro informado");
+                return ResponseEntity.internalServerError().body("Nao foi possivel indentificar o registro informado");
             }
             condutorService.atualizaCondutor(condutor);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
