@@ -12,7 +12,7 @@ public class Veiculo  extends abstractEntity{
     @Column(name = "placa", nullable = false, unique = true, length = 10)
     private String placa;
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "modelo",nullable = false)
     private Modelo modelo;
     @Getter @Setter

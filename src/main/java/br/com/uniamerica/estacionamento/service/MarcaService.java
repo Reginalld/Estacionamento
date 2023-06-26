@@ -35,11 +35,13 @@ public class MarcaService {
         this.marcaRep.save(marca);
     }
 
-    public void editarMarca(final Marca marca){
+    public void editarMarca(long id,final Marca marca){
         Assert.isTrue(!marca.getNome().equals(""),"Marca não pode ser nulo!");
         Assert.isTrue(marca.getNome().length() <= 50 && marca.getNome().length() >= 3,"Máximo de 50 caracteres e minimo de 3");
 
         // Assert.isTrue(marca.getNome().substring(0,50).matches("[A-Z]*"),"Nenhuma marca tem número no nome");
+
+        marca.setAtivo(true);
 
         this.marcaRep.save(marca);
     }

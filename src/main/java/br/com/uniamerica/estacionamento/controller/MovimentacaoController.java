@@ -59,8 +59,8 @@ public class MovimentacaoController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Movimentacao movimentacao){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final Movimentacao movimentacao){
         try {
             final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
 
@@ -78,7 +78,7 @@ public class MovimentacaoController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id,Movimentacao movimentacao){
         try {
 

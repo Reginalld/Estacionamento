@@ -57,6 +57,8 @@ public class VeiculoService {
             return ResponseEntity.ok ("Desativado com sucesso");
         }
 
+        veiculo.setAtivo(true);
+
         veiculoRep.deleteById(id);
         return ResponseEntity.ok ("Deletado com sucesso");
     }

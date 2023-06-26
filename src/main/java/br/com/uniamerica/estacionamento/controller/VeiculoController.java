@@ -51,8 +51,8 @@ public class VeiculoController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Veiculo veiculo){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final Veiculo veiculo){
         try {
             final Veiculo veiculo1 = this.veiculoRep.findById(id).orElse(null);
 
@@ -71,7 +71,7 @@ public class VeiculoController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
         try {
             return veiculoServ.deletar(id);

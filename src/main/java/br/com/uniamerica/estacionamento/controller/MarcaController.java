@@ -1,6 +1,7 @@
 package br.com.uniamerica.estacionamento.controller;
 
 import br.com.uniamerica.estacionamento.entity.Marca;
+import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.repository.MarcaRepository;
 import br.com.uniamerica.estacionamento.service.MarcaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,43 +42,53 @@ public class MarcaController {
     }
 
     @PostMapping
-    public ResponseEntity <?> cadastrar(@RequestBody final Marca marca){
+    public ResponseEntity<?> cadastrar(@RequestBody final Marca marca){
         try {
             this.marcaServ.createMarca(marca);
-            return ResponseEntity.ok("Registro cadastrado com sucesso");
+            return ResponseEntity.ok("Registro cadastrado com sucesso.");
+        }
+        catch (DataIntegrityViolationException e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         }
         catch (Exception e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }
 
-    @PutMapping("/editar")
-    public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Marca marca){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody final Marca marca){
         try {
             final Marca marca1 = this.marcaRep.findById(id).orElse(null);
 
-            if (marca1 == null || !marca1.getId().equals(marca.getId())){
+            if (marca1 == null || marca1.getId() != (marca.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
-            this.marcaServ.editarMarca(marca);
-            return ResponseEntity.ok("Registro Cadastrado com Sucesso");
+            this.marcaServ.editarMarca(id, marca);
+            return ResponseEntity.ok("Registro atualizado com sucesso. ");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError()
-                    .body("Error: " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
+        catch (Exception e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletaCondutor(@PathVariable("id") final Long id) {
-       try {
-           return this.marcaServ.deletar(id);
-       }
-       catch (RuntimeException e){
-           return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-       }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(
+            @PathVariable("id") final Long id
+    ){
+        try {
+            this.marcaServ.deletar(id);
+            return ResponseEntity.ok("Registro excluido com sucesso.");
+        }
+        catch (Exception e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
     }
 }
+

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalTime;
+
 @Service
 public class CondutorService {
 
@@ -43,9 +45,11 @@ public class CondutorService {
         Assert.isTrue(condutor.getTelefone().length() == 11, "Telefone deve conter 11 digítos, incluindo o DDD e o 9 extra");
         Assert.isTrue(condutor.getTelefone().substring(0,11).matches("[0-9]*"),"Telefone deve conter apenas Números");
 
-        Assert.isTrue(condutor.getTempoPago() != null,"TempoPago não pode ser nulo");
-        Assert.isTrue(condutor.getTempoDesconto() != null, "TempoDesconto não pode ser nulo");
+        condutor.setTempoPago(LocalTime.parse("00:00:00"));
+        condutor.setTempoDesconto(LocalTime.parse("00:00:00"));
 
+
+        condutor.setAtivo(true);
 
         this.condutorRep.save(condutor);
     }
