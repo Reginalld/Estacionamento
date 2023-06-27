@@ -12,15 +12,15 @@ import java.time.LocalTime;
 @Table(name = "Movimentações", schema = "public")
 public class Movimentacao extends abstractEntity{
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "veiculo",unique = true,nullable = false)
     private Veiculo veiculo;
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "condutor", nullable = false)
     private Condutor condutor;
     @Getter @Setter
-    @Column(name = "Entrada",nullable = false)
+    @Column(name = "Entrada")
     private LocalDateTime entrada;
     @Getter @Setter
     @Column(name = "Saida")

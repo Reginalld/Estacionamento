@@ -26,6 +26,12 @@ public class ConfiguracaoController {
         return ResponseEntity.ok(configuracao);
     }
 
+    @GetMapping("/lista")
+    public ResponseEntity <?> ListCompCondutor(){
+        return ResponseEntity.ok(this.configuracaoRep.findAll());
+
+    }
+
     @PostMapping
     public ResponseEntity <?> cadastrarCondutor(@RequestBody final Configuracao configuracao){
         try {

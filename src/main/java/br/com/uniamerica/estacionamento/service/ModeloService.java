@@ -72,7 +72,6 @@ public class ModeloService {
             }
 
             modelo.setAtivo(true);
-
             modeloRep.deleteById(id);
             return ResponseEntity.ok ("Deletado com sucesso");
         }

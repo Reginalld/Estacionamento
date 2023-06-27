@@ -43,9 +43,9 @@ public class MovimentacaoService  {
 
         Assert.isTrue(movimentacao.getCondutor() != null,  "Condutor não pode ser nulo");
 
-        Assert.isTrue(movimentacao.getEntrada() != null, "Entrada não pode ser nulo");
-
         movimentacao.setAtivo(true);
+
+        movimentacao.setEntrada(LocalDateTime.now());
 
         //entradaConta = LocalDateTime.now();
 
@@ -58,15 +58,14 @@ public class MovimentacaoService  {
 
     public ResponseEntity<?> finalizarMovimentacao(Movimentacao movimentacao,Long id) {
 
+        movimentacao.setSaida(LocalDateTime.now());
+
         final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
 
         Assert.isTrue(movimentacao.getVeiculo() != null,"Veiculo não pode ser nulo");
 
         Assert.isTrue(movimentacao.getCondutor() != null,  "Condutor não pode ser nulo");
 
-        Assert.isTrue(movimentacao.getEntrada() != null, "Entrada não pode ser nulo");
-
-        Assert.isTrue(movimentacao.getSaida() != null, "Saida não pode ser nulo");
 
         Duration valorEntre = Duration.between(movimentacao.getEntrada(), movimentacao.getSaida());
 
