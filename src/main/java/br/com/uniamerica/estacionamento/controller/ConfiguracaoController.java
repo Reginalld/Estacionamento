@@ -36,7 +36,6 @@ public class ConfiguracaoController {
     public ResponseEntity <?> cadastrarCondutor(@RequestBody final Configuracao configuracao){
         try {
             this.configuracaoRep.save(configuracao);
-            this.configuracaoServ.valorHoraFunc(configuracao);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         }
         catch (Exception e){
@@ -44,8 +43,8 @@ public class ConfiguracaoController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> editarCondutor(@RequestParam("id") final Long id, @RequestBody final Configuracao configuracao){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editarCondutor(@PathVariable("id") final Long id, @RequestBody final Configuracao configuracao){
         try {
             final Configuracao configuracao1 = this.configuracaoRep.findById(id).orElse(null);
 
@@ -53,7 +52,6 @@ public class ConfiguracaoController {
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
             this.configuracaoRep.save(configuracao);
-            this.configuracaoServ.valorHoraFunc(configuracao);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){

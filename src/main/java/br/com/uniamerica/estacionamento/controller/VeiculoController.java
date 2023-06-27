@@ -59,7 +59,7 @@ public class VeiculoController {
             if (veiculo1 == null || !veiculo1.getId().equals(veiculo.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
-            this.veiculoRep.save(veiculo);
+            this.veiculoServ.atualizaVeiculo(veiculo);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -74,8 +74,10 @@ public class VeiculoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id){
         try {
-            return veiculoServ.deletar(id);
-        }catch (RuntimeException e){
+            this.veiculoServ.deletar(id);
+            return ResponseEntity.ok("Desativado ou Excluído");
+
+        }catch (Exception e){
             return  ResponseEntity.internalServerError().body("Error: "+ e.getMessage());
             }
         }

@@ -15,18 +15,4 @@ public class ConfiguracaoService {
     private ConfiguracaoRepository configuracaoRep;
 
 
-    static float souFoda;
-
-
-    public void valorHoraFunc(Configuracao configuracao){
-
-
-        Configuracao configuracao1 = configuracaoRep.findByvalorHora(configuracao.getValorHora());
-
-        souFoda = configuracao1.getValorHora();
-
-        System.out.println(configuracao1.getValorHora());
-
-    }
-
 }

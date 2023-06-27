@@ -50,8 +50,8 @@ public class CondutorController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> editarCondutor(@RequestParam("id") final Long id, @RequestBody final Condutor condutor){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editarCondutor(@PathVariable("id") final Long id, @RequestBody final Condutor condutor){
         try {
             final Condutor condutor1 = this.condutorRep.findById(id).orElse(null);
 
@@ -70,11 +70,12 @@ public class CondutorController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable Long id) {
         try {
 
-            return this.condutorService.deletar(id);
+            this.condutorService.deletar(id);
+            return ResponseEntity.ok("Desativado ou excluído");
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());

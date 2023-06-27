@@ -70,8 +70,9 @@ public class ModeloController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletaCondutor(@PathVariable("id") final Long id){
         try {
-            return modeloServ.deletar(id);
-        } catch (RuntimeException e){
+            this.modeloServ.deletar(id);
+            return ResponseEntity.ok("Desativado ou Excluído");
+        } catch (Exception e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }

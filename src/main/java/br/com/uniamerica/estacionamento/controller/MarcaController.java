@@ -47,9 +47,6 @@ public class MarcaController {
             this.marcaServ.createMarca(marca);
             return ResponseEntity.ok("Registro cadastrado com sucesso.");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-        }
         catch (Exception e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
@@ -84,7 +81,7 @@ public class MarcaController {
     ){
         try {
             this.marcaServ.deletar(id);
-            return ResponseEntity.ok("Registro excluido com sucesso.");
+            return ResponseEntity.ok("Excluído ou desativado");
         }
         catch (Exception e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
