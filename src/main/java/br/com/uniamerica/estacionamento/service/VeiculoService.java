@@ -26,15 +26,18 @@ public class VeiculoService {
     @Transactional(rollbackFor = Exception.class)
     public void createVeiculo(final Veiculo veiculo){
 
-
         Assert.isTrue(veiculo.getPlaca() != null,"Placa não pode ser nulo!");
-        Assert.isTrue(veiculo.getPlaca().length() == 10,"Deve conter 10 dígitos");
+        Assert.isTrue(veiculo.getPlaca().length() == 7,"Placa Deve conter 7 dígitos");
         Veiculo veiculoExistente = veiculoRep.findByPlaca(veiculo.getPlaca());
         Assert.isTrue(veiculoExistente == null || veiculoExistente.equals(veiculo),"Placa já existente");
+
 
         Assert.isTrue(veiculo.getModelo() != null,"Modelo não pode ser nulo");
 
         Assert.isTrue(veiculo.getAno() != 0, "Ano não pode ser nulo");
+
+        Assert.isTrue(veiculo.getAno() > 1900 && veiculo.getAno() < qualquer,"O ano deve estar entra 1900 e a data atual mais 1");
+
 
         Assert.isTrue(veiculo.getTipo() != null,"Tipo não pode ser nulo");
         //Assert.isTrue(veiculo.getTipo().length() <= 15, "Deve conter até 15 digitos");
@@ -53,11 +56,13 @@ public class VeiculoService {
 
 
         Assert.isTrue(veiculo.getPlaca() != null,"Placa não pode ser nulo!");
-        Assert.isTrue(veiculo.getPlaca().length() == 10,"Placa Deve conter 10 dígitos");
+        Assert.isTrue(veiculo.getPlaca().length() == 7,"Placa Deve conter 7 dígitos");
 
         Assert.isTrue(veiculo.getModelo() != null,"Modelo não pode ser nulo");
 
         Assert.isTrue(veiculo.getAno() != 0, "Ano não pode ser nulo");
+
+        Assert.isTrue(veiculo.getAno() > 1900 || veiculo.getAno() < qualquer,"O ano deve estar entra 1900 e a data atual mais 1");
 
         Assert.isTrue(veiculo.getTipo() != null,"Tipo não pode ser nulo");
         //Assert.isTrue(veiculo.getTipo().length() <= 15, "Deve conter até 15 digitos");

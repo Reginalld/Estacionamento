@@ -22,8 +22,8 @@ public class MovimentacaoController {
     @Autowired
     private MovimentacaoService movimentacaoServ;
 
-    @Autowired
-    private ConfiguracaoService configuracaoServ;
+    private Configuracao configuracao1;
+
 
 
 
@@ -67,6 +67,7 @@ public class MovimentacaoController {
             if (movimentacao1 == null || !movimentacao1.getId().equals(movimentacao.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
+
            return  movimentacaoServ.finalizarMovimentacao(movimentacao,id);
         }
         catch (DataIntegrityViolationException e){
@@ -78,28 +79,40 @@ public class MovimentacaoController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletaCondutor(@PathVariable Long id,Movimentacao movimentacao){
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editarDeVerdade(@PathVariable("id") final Long id, @RequestBody final Movimentacao movimentacao){
         try {
-
             final Movimentacao movimentacao1 = this.movimentacaoRep.findById(id).orElse(null);
 
             if (movimentacao1 == null || !movimentacao1.getId().equals(movimentacao.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
 
-            movimentacao.setAtivo(false);
-            return ResponseEntity.ok("Desativado");
+            movimentacaoServ.editarMovimentacao(movimentacao,id);
+            return  ResponseEntity.ok("Movimentação editada");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("Error: " + e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleta(@PathVariable Long id){
+        try {
+            this.movimentacaoServ.deletar(id);
+            return ResponseEntity.ok("Desativado");
+
+        }catch (Exception e){
+            return  ResponseEntity.internalServerError().body("Error: "+ e.getMessage());
+        }
+    }
 }
+
+
 
 
 

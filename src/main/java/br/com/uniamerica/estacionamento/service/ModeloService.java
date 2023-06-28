@@ -47,6 +47,7 @@ public class ModeloService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void editarModelo(final Modelo modelo){
 
         Assert.isTrue(modelo.getNome() != null,"Modelo não pode ser nulo");

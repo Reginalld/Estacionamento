@@ -55,7 +55,7 @@ public class ModeloController {
             if (modelo1 == null || modelo1.getId() != (modelo.getId())){
                 throw new RuntimeException("Nao foi possivel indentificar o registro informado");
             }
-            this.modeloRep.save(modelo);
+            this.modeloServ.editarModelo(modelo);
             return ResponseEntity.ok("Registro Cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e){
